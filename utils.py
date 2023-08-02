@@ -16,18 +16,18 @@ def load_and_prep_image(filename, img_shape = 150, rescale=True):
     return (224, 224, 3).
     """
     
-    img = tf.io.decode_image(filename, channels=3)
-    img = tf.image.resize(img, [img_shape, img_shape])
+    #img = tf.io.decode_image(filename, channels=3)
+    #img = tf.image.resize(img, [img_shape, img_shape])
 
-    if rescale:
-        return img / 255
-    else:
-        return img
+    #if rescale:
+    #    return img / 255
+    #else:
+    #    return img
 
 
 def update_logger(image, model_used, pred_class, pred_conf, correct=False, user_label=None):
     """
-    Function for tracking feedback given in app, updates and reutrns 
+    Function for tracking feedback given in app, updates and returns 
     logger dictionary.
     """
     logger = {
