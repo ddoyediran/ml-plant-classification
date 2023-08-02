@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 #import SessionState
-#import tensorflow as tf
+import tensorflow as tf
 #import requests
 #from utils import load_and_prep_image, classes_and_models, update_logger, predict_json
 from utils import load_and_prep_image, update_logger
