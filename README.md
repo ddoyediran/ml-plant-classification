@@ -1,6 +1,6 @@
 ## What will I end up with?
 
-If you go through the steps below without fail, you should end up with a [Streamlit](http://streamlit.io/)-powered web application (Plant Disease Vision) for classifying if an apple leaf is healthy or has a disease [multiple diseases, scab, rust] (will be deployed on Google Cloud).
+If you go through the steps below without fail, you should end up with a [Streamlit](http://streamlit.io/)-powered web application (Plant Disease Vision) for classifying if an apple leaf is healthy or has a disease [e.g multiple diseases, scab, rust] (end goal is to deploy this app on Google Cloud).
 
 ## 1. Getting the app running
 
