@@ -31,12 +31,12 @@ classes = ['healthy',
  'scab'
  ]
 
-def load_image(image, img_size=150):
+def preprocess_image(image, img_size=150):
     img = tf.io.decode_image(image, channels=3)
-    img = tf.cast(img, tf.float32)
-    img /= 255.0
     img = tf.image.resize(img, [img_size, img_size])
+    img /= 255.0
     img = tf.expand_dims(img, axis=0)
+    img = tf.cast(img, tf.float32)
     print(img)
     return img
 
@@ -49,14 +49,16 @@ else:
     uploaded_image = upload_file.read() # read the uploaded image
     st.image(uploaded_image, use_column_width=True) # show the uploaded image
     pred_button = st.button("Predict")
-    # print(pred_button) #
+
+    # make prediction, if the prediction button is click
     if pred_button == True:
         with st.spinner("Classifying..."):
-            img_tensor = load_image(uploaded_image)
+            img_tensor = preprocess_image(uploaded_image)
+            #print(model.summary())
             pred = model.predict(img_tensor)
             print(pred)
             pred_class = classes[tf.argmax(pred[0])]
-            print(tf.argmax(pred[0]))
+            #print(tf.argmax(pred[0]))
             st.write("Predicted Class: ", pred_class)
             #st.image(uploaded_image, use_column_width=True)
 
