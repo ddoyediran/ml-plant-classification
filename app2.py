@@ -2,6 +2,22 @@ import streamlit as st
 #import SessionState
 import tensorflow as tf
 import requests
+import json
+import os
+from utils import classes_and_models, predict_json
+import numpy as np
+
+
+# Setup environment credentias 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dami-ml-projects-343dfacc9920.json"
+PROJECT = "dami_ml_projects"
+PROJECT_NUMBER = "368522488538"
+REGION = "us-central1"
+
+MODEL = classes_and_models["model_1"]["model_name"]
+MODEL_ID = classes_and_models["model_1"]["model_id"]
+ENDPOINT_ID = classes_and_models["model_1"]["endpoint_id"]
+CLASSES = classes_and_models["model_1"]["classes"]
 
 
 
@@ -17,7 +33,9 @@ upload_file = st.file_uploader(label="Please upload image of the apple leaf",
 ### Function to load the model
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model("plant_class.keras")
+    #model = tf.keras.models.load_model("plant_class.keras")
+    model = tf.keras.models.load_model("plant_class.h5")
+    
     return model
 
 # Show spinner on loading
@@ -25,19 +43,29 @@ with st.spinner("Loading model..."):
     model = load_model()
 
 # Classes and Preprocess the image
-classes = ['healthy',
+base_classes = ['healthy',
  'multiple_diseases',
  'rust',
  'scab'
  ]
 
 def preprocess_image(image, img_size=150):
-    img = tf.io.decode_image(image, channels=3)
-    img = tf.image.resize(img, [img_size, img_size])
-    img /= 255.0
-    img = tf.expand_dims(img, axis=0)
-    img = tf.cast(img, tf.float32)
-    print(img)
+    #img = tf.io.decode_image(image, channels=3)
+    #img = tf.image.resize(img, [img_size, img_size])
+    #img /= 255.0
+    #img = np.asarray(img).astype(np.float32).tolist()
+    #img.reshape()
+    #img = tf.reshape(150, 150, 3)
+    #img = np.expand_dims(img, axis=0)
+    #img = tf.cast(img, tf.float32)
+    #print(img.shape)
+
+
+    path = "./images/Test_0.jpg"
+    img = tf.keras.preprocessing.image.load_img(path, target_size=(img_size, img_size))
+    img = tf.keras.preprocessing.image.img_to_array(img)
+    #img /= 255.0
+    img = np.expand_dims(img, axis=0)
     return img
 
 
@@ -56,9 +84,21 @@ else:
             img_tensor = preprocess_image(uploaded_image)
             #print(model.summary())
             pred = model.predict(img_tensor)
+            """
+            prediction = predict_json(project= PROJECT_NUMBER, 
+                                 region=REGION, 
+                                 endpoint_id=ENDPOINT_ID,
+                                 instances=img_tensor
+                                 )
+            print(prediction)
+            """
             print(pred)
-            pred_class = classes[tf.argmax(pred[0])]
+            pred_class = base_classes[tf.argmax(pred[0])]
+            pred_conf = tf.reduce_max(pred[0]) * 100
+            #max = tf.math.maximum(2, 5)
+            #st.write(round(pred_conf, 2))
             #print(tf.argmax(pred[0]))
-            st.write("Predicted Class: ", pred_class)
+            #st.write("Predicted Class: ", pred_class )
+            st.write("Predicted Class is {} and is {} confident".format( pred_class, pred_conf),)
             #st.image(uploaded_image, use_column_width=True)
 
