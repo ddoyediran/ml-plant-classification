@@ -2,4 +2,4 @@ requests==2.31.0
 tensorflow==2.13.0
 streamlit==1.25.0
 google-api-python-client==2.95.0
-google-cloud-aiplatform==1.30.0
+
