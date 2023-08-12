@@ -33,8 +33,8 @@ upload_file = st.file_uploader(label="Please upload image of the apple leaf",
 ### Function to load the model
 @st.cache_resource
 def load_model():
-    #model = tf.keras.models.load_model("plant_class.keras")
-    model = tf.keras.models.load_model("plant_class.h5")
+    model = tf.keras.models.load_model("plant_class.keras")
+    #model = tf.keras.models.load_model("plant_class.h5")
     
     return model
 
@@ -61,7 +61,7 @@ def preprocess_image(image, img_size=150):
     #print(img.shape)
 
 
-    path = "./images/Test_0.jpg"
+    path = "./images/Test_6.jpg"
     img = tf.keras.preprocessing.image.load_img(path, target_size=(img_size, img_size))
     img = tf.keras.preprocessing.image.img_to_array(img)
     #img /= 255.0
