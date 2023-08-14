@@ -98,10 +98,7 @@ else:
             pred_class = base_classes[tf.argmax(pred[0])]
             pred_conf = tf.reduce_max(pred[0]) * 100
             pred_conf = np.array(pred_conf).round(2)
-            #max = tf.math.maximum(2, 5)
-            #st.write(round(pred_conf, 2))
-            #print(tf.argmax(pred[0]))
             #st.write("Predicted Class: ", pred_class )
-            st.write("Predicted Class is {} and is {} confident".format( pred_class, pred_conf),)
-            #st.image(uploaded_image, use_column_width=True)
+            st.write("Predicted Class is {} and is {} confident".format(pred_class, pred_conf))
+            
 
