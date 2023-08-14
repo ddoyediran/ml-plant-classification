@@ -33,8 +33,8 @@ upload_file = st.file_uploader(label="Please upload image of the apple leaf",
 ### Function to load the model
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model("plant_class.keras")
-    #model = tf.keras.models.load_model("plant_class.h5")
+    #model = tf.keras.models.load_model("plant_class.keras")
+    model = tf.keras.models.load_model("plant_class_2.h5")
     
     return model
 
@@ -50,22 +50,22 @@ base_classes = ['healthy',
  ]
 
 def preprocess_image(image, img_size=150):
-    #img = tf.io.decode_image(image, channels=3)
-    #img = tf.image.resize(img, [img_size, img_size])
+    img = tf.io.decode_image(image, channels=3)
+    img = tf.image.resize(img, [img_size, img_size])
     #img /= 255.0
     #img = np.asarray(img).astype(np.float32).tolist()
     #img.reshape()
     #img = tf.reshape(150, 150, 3)
-    #img = np.expand_dims(img, axis=0)
-    #img = tf.cast(img, tf.float32)
+    img = np.expand_dims(img, axis=0)
+    img = tf.cast(img, tf.float32)
     #print(img.shape)
 
 
-    path = "./images/Test_6.jpg"
-    img = tf.keras.preprocessing.image.load_img(path, target_size=(img_size, img_size))
-    img = tf.keras.preprocessing.image.img_to_array(img)
+    #path = "./images/Test_6.jpg"
+    #img = tf.keras.preprocessing.image.load_img(path, target_size=(img_size, img_size))
+    #img = tf.keras.preprocessing.image.img_to_array(img)
     #img /= 255.0
-    img = np.expand_dims(img, axis=0)
+    #img = np.expand_dims(img, axis=0)
     return img
 
 
@@ -84,6 +84,7 @@ else:
             img_tensor = preprocess_image(uploaded_image)
             #print(model.summary())
             pred = model.predict(img_tensor)
+            
             """
             prediction = predict_json(project= PROJECT_NUMBER, 
                                  region=REGION, 
@@ -92,9 +93,11 @@ else:
                                  )
             print(prediction)
             """
+            
             print(pred)
             pred_class = base_classes[tf.argmax(pred[0])]
             pred_conf = tf.reduce_max(pred[0]) * 100
+            pred_conf = np.array(pred_conf).round(2)
             #max = tf.math.maximum(2, 5)
             #st.write(round(pred_conf, 2))
             #print(tf.argmax(pred[0]))
