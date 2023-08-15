@@ -3,7 +3,6 @@ import tensorflow as tf
 import googleapiclient.discovery
 #from google.api_core.client_options import ClientOptions
 from google.cloud import aiplatform
-#from google.cloud.aiplatform import aiplatform
 
 
 base_classes = ['healthy',
@@ -75,9 +74,6 @@ def predict_json(project, region, endpoint_id, instances, version=None):
     #endpoint = endpoint.predict(instances=instances)
 
     return pred
-
-
-
 
 
 def update_logger(image, model_used, pred_class, pred_conf, correct=False, user_label=None):
